@@ -12,6 +12,9 @@ I built this to understand the engineering challenges behind compliant medical d
 ## Tech Stack
 * **Language:** Python 3.x
 * **Library:** `pydicom`
+##USAGE:
+python inspector.py /path/to/dcm_folder
+python anonymizer.py /path/to/dcm_folder /path/to/output_folder
 
 ## Purpose
 This project explores the "Edge Gateway" architecture used in modern telemedicine, ensuring data is clean and traceable before it reaches central cloud storage.
