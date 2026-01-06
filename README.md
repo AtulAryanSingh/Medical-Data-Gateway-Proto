@@ -3,6 +3,7 @@
 ## Overview
 A Python-based learning prototype designed to handle the **safe retrieval and processing of medical imaging data** (DICOM).
 I built this to understand the engineering challenges behind compliant medical data transfer—specifically regarding **GDPR anonymization** and **Edge-to-Cloud traceability**.
+This is a learning prototype. Not production ready. Always validate before use.
 
 ## Core Functions
 * **Metadata Parsing:** separating header tags from pixel data.
