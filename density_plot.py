@@ -21,7 +21,7 @@ plt.hist(flat_pixels, bins = 100, color = 'c')
 
 #Labeling the plot
 plt.title(f"Radiodensity Histogram {ds.PatientName}")
-plt.xlabel("Pixel Instensity (Housefiled units approx)")
+plt.xlabel("Pixel Instensity (Hounsfield units approx)")
 plt.ylabel("Number of pixels (Frequency count)")
 plt.grid(True, alpha = 0.3)
 

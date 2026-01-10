@@ -1,21 +1,45 @@
-# DICOM Secure Gateway Prototype
+# Medical Data Engineering Toolkit 🏥 🐍
 
 ## Overview
-A Python-based learning prototype designed to handle the **safe retrieval and processing of medical imaging data** (DICOM).
-I built this to understand the engineering challenges behind compliant medical data transfer—specifically regarding **GDPR anonymization** and **Edge-to-Cloud traceability**.
-This is a learning prototype. Not production ready. Always validate before use.
+A comprehensive Python-based toolkit for handling **DICOM medical imaging data**.
+This project simulates the core logic of a **Medical Images Gateway (MIG)**, focusing on GDPR compliance, batch processing, and pixel-level analysis.
 
-## Core Functions
-* **Metadata Parsing:** separating header tags from pixel data.
-* **Automated Anonymization:** Stripping PII (Patient Name/ID) to simulate a GDPR-compliant gateway.
-* **Origin Tracking:** Injecting "StationName" tags (e.g., `REMOTE_MOBILE_CLINIC_01`) to trace files coming from decentralized sources.
+## 🛠 Modules Built
 
-## Tech Stack
-* **Language:** Python 3.x
-* **Library:** `pydicom`
-##USAGE:
-python inspector.py /path/to/dcm_folder
-python anonymizer.py /path/to/dcm_folder /path/to/output_folder
+### 1. `anonymizer.py` (The Prototype)
+* **Function:** Single-file processor.
+* **Logic:** strips PII (Patient Name/ID) and injects "Edge" origin tags (e.g., `REMOTE_MOBILE_CLINIC_01`).
+* **Tech:** `pydicom`, `os`.
 
-## Purpose
-This project explores the "Edge Gateway" architecture used in modern telemedicine, ensuring data is clean and traceable before it reaches central cloud storage.
+### 2. `batch_processor.py` (The Engine)
+* **Function:** High-volume automated processing.
+* **Logic:** Iterates through full CT scan volumes, applying anonymization rules to hundreds of slices in seconds.
+* **Key Feature:** Robust error handling and dynamic folder creation.
+
+### 3. `viewer.py` (The Eyes)
+* **Function:** Diagnostic visualization.
+* **Logic:** Renders raw DICOM pixel data into human-readable X-Ray images using a bone-specific colormap.
+* **Tech:** `matplotlib`.
+
+### 4. `density_plot.py` (The Analyst)
+* **Function:** Tissue density analysis.
+* **Logic:** Flattens 2D pixel arrays to generate histograms of Hounsfield Units (radiodensity), distinguishing between air, soft tissue, and bone.
+
+## 🚀 How to Run
+1.  **Install dependencies:**
+    ```bash
+    pip install pydicom matplotlib
+    ```
+2.  **Run the batch processor:**
+    ```bash
+    python batch_processor.py
+    ```
+3.  **Visualize the results:**
+    ```bash
+    python viewer.py
+    ```
+
+## 🧠 Key Learnings
+* **DICOM Structure:** Understanding Header (Metadata) vs. Pixel Data.
+* **Data Hygiene:** The importance of "cleaning" data at the Edge before Cloud transfer.
+* **Visualization:** Translating raw integer arrays into diagnostic imagery.
