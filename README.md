@@ -1,45 +1,60 @@
-# Medical Data Engineering Toolkit 🏥 🐍
+# Edge-Native DICOM Pipeline for Mobile Units 🚑 📡
 
-## Overview
-A comprehensive Python-based toolkit for handling **DICOM medical imaging data**.
-This project simulates the core logic of a **Medical Images Gateway (MIG)**, focusing on GDPR compliance, batch processing, and pixel-level analysis.
+### **Intelligent Triage & Resilient Upload Gateway for Remote Clinics**
 
-## 🛠 Modules Built
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Status](https://img.shields.io/badge/Status-Prototype-green)
+![Focus](https://img.shields.io/badge/Focus-Edge%20Computing-orange)
 
-### 1. `anonymizer.py` (The Prototype)
-* **Function:** Single-file processor.
-* **Logic:** strips PII (Patient Name/ID) and injects "Edge" origin tags (e.g., `REMOTE_MOBILE_CLINIC_01`).
-* **Tech:** `pydicom`, `os`.
+## 📋 Project Overview
+This project addresses the critical connectivity challenges faced by **Mobile Medical Units** (e.g., mammography trucks) operating in remote areas with unstable 4G/LTE signals.
 
-### 2. `batch_processor.py` (The Engine)
-* **Function:** High-volume automated processing.
-* **Logic:** Iterates through full CT scan volumes, applying anonymization rules to hundreds of slices in seconds.
-* **Key Feature:** Robust error handling and dynamic folder creation.
+Instead of relying on fragile, direct uploads, this **Edge-Native Gateway**:
+1.  **Ingests** raw DICOM files locally.
+2.  **Anonymizes** patient data (GDPR Compliance).
+3.  **Analyzes** scan density using Unsupervised AI (K-Means) for instant triage.
+4.  **Uploads** securely with **Exponential Backoff Retry Logic** to handle network drops without data loss.
 
-### 3. `viewer.py` (The Eyes)
-* **Function:** Diagnostic visualization.
-* **Logic:** Renders raw DICOM pixel data into human-readable X-Ray images using a bone-specific colormap.
-* **Tech:** `matplotlib`.
+---
 
-### 4. `density_plot.py` (The Analyst)
-* **Function:** Tissue density analysis.
-* **Logic:** Flattens 2D pixel arrays to generate histograms of Hounsfield Units (radiodensity), distinguishing between air, soft tissue, and bone.
+## 🏗 System Architecture
+The pipeline is designed to run locally on the edge (the truck) before data reaches the cloud.
+
+> *[Insert your Architecture Diagram here - Upload 'architecture_diagram.png' to repo]*
+> ![Architecture Map](architecture_diagram.png)
+
+---
+
+## ⚡ Key Features
+
+### 1. **Resilient "Smart Upload" Protocol**
+* **Problem:** 4G connections in rural Sicily/remote areas frequently drop.
+* **Solution:** The `batch_processor.py` module detects connection failures and triggers an **Exponential Backoff** mechanism (pauses and retries), ensuring 100% file delivery reliability.
+
+### 2. **AI-Powered Triage (Edge Inference)**
+* **Problem:** Radiologists waste time opening blank or low-contrast scans.
+* **Solution:** A lightweight **K-Means Clustering** algorithm runs locally to segment the image into **Bone, Tissue, and Air**.
+* **Result:** Generates a visual "Digital Highlighter" overlay for rapid review.
+
+![AI Segmentation Result](highlighted_scan.png)
+*(Left: Original Raw Scan | Right: AI Segmented Output)*
+
+### 3. **GDPR-First Privacy**
+* Automatically strips sensitive DICOM tags (`PatientName`, `PatientID`) and replaces them with anonymous hashes *before* the data leaves the local network.
+
+---
+
+## 🛠 Technical Stack
+* **Language:** Python 3.x
+* **Medical Imaging:** `pydicom` (DICOM standard parsing)
+* **Data Science:** `scikit-learn` (K-Means Clustering), `numpy`
+* **Visualization:** `matplotlib`
+* **Edge Logic:** Custom retry loops with `time` & `random` simulation.
+
+---
 
 ## 🚀 How to Run
-1.  **Install dependencies:**
-    ```bash
-    pip install pydicom matplotlib
-    ```
-2.  **Run the batch processor:**
-    ```bash
-    python batch_processor.py
-    ```
-3.  **Visualize the results:**
-    ```bash
-    python viewer.py
-    ```
 
-## 🧠 Key Learnings
-* **DICOM Structure:** Understanding Header (Metadata) vs. Pixel Data.
-* **Data Hygiene:** The importance of "cleaning" data at the Edge before Cloud transfer.
-* **Visualization:** Translating raw integer arrays into diagnostic imagery.
+### Prerequisites
+```bash
+pip install pydicom matplotlib scikit-learn numpy
