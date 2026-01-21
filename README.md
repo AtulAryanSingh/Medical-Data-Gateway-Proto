@@ -1,60 +1,46 @@
-# Edge-Native DICOM Pipeline for Mobile Units 🚑 📡
+# MedSendX Edge-Native Pipeline (Prototype)
 
-### **Intelligent Triage & Resilient Upload Gateway for Remote Clinics**
+## Overview
+This project is a lightweight, edge-native DICOM processing pipeline designed for mobile medical units (e.g., Mammography Trucks) operating in low-connectivity environments.
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![Status](https://img.shields.io/badge/Status-Prototype-green)
-![Focus](https://img.shields.io/badge/Focus-Edge%20Computing-orange)
+It addresses four critical challenges:
+1.  **Data Privacy:** GDPR-compliant anonymization at the source.
+2.  **Bandwidth Constraints:** "Smart Retry" logic for unstable 4G/LTE connections.
+3.  **Clinical Triage:** On-device AI segmentation (Bone vs. Tissue) to prioritize urgent scans.
+4.  **Fleet Analytics:** Population-level data mining to detect scanner faults or outliers.
 
-## 📋 Project Overview
-This project addresses the critical connectivity challenges faced by **Mobile Medical Units** (e.g., mammography trucks) operating in remote areas with unstable 4G/LTE signals.
+## Architecture
+**Truck (Edge)** --> **Gateway (Python Script)** --> **Cloud (AWS S3/PACS)**
 
-Instead of relying on fragile, direct uploads, this **Edge-Native Gateway**:
-1.  **Ingests** raw DICOM files locally.
-2.  **Anonymizes** patient data (GDPR Compliance).
-3.  **Analyzes** scan density using Unsupervised AI (K-Means) for instant triage.
-4.  **Uploads** securely with **Exponential Backoff Retry Logic** to handle network drops without data loss.
+## Key Modules
 
----
+### 1. `batch_processor.py` (The Resilience Layer)
+- **Function:** Simulates the ingestion of raw DICOM files.
+- **Features:**
+  - Implements exponential backoff for network drops.
+  - Automatically tags files with `StationName: REMOTE_MOBILE_CLINIC_01`.
+  - Prevents data loss during signal interruptions.
 
-## 🏗 System Architecture
-The pipeline is designed to run locally on the edge (the truck) before data reaches the cloud.
+### 2. `density_plot.py` (The Clinical AI Layer)
+- **Target:** The Radiologist (Single Patient View).
+- **Function:** Performs unsupervised K-Means clustering on pixel density.
+- **Output:** Generates a segmented visualization (Air vs. Soft Tissue vs. Bone) to aid rapid review.
 
-> *[Insert your Architecture Diagram here - Upload 'architecture_diagram.png' to repo]*
-> ![Architecture Map](architecture_diagram.png)
+### 3. `miner.py` (The Business Intelligence Layer)
+- **Target:** The Fleet Manager (Population View).
+- **Function:** Aggregates meta-features (Average Density vs. Contrast) across all processed patients.
+- **Algorithm:** Uses K-Means to detect outliers (e.g., "Cluster B").
+- **Use Case:** Automated Quality Control (QC) to identify broken scanners or calibration issues in specific mobile units.
 
----
+### 4. `anonymizer.py` (The Privacy Layer)
+- **Function:** Strips PII (PatientID, PatientName) before the file leaves the truck.
+- **Compliance:** Aligns with basic GDPR data minimization principles.
 
-## ⚡ Key Features
-
-### 1. **Resilient "Smart Upload" Protocol**
-* **Problem:** 4G connections in rural Sicily/remote areas frequently drop.
-* **Solution:** The `batch_processor.py` module detects connection failures and triggers an **Exponential Backoff** mechanism (pauses and retries), ensuring 100% file delivery reliability.
-
-### 2. **AI-Powered Triage (Edge Inference)**
-* **Problem:** Radiologists waste time opening blank or low-contrast scans.
-* **Solution:** A lightweight **K-Means Clustering** algorithm runs locally to segment the image into **Bone, Tissue, and Air**.
-* **Result:** Generates a visual "Digital Highlighter" overlay for rapid review.
-
-![AI Segmentation Result](highlighted_scan.png)
-*(Left: Original Raw Scan | Right: AI Segmented Output)*
-
-### 3. **GDPR-First Privacy**
-* Automatically strips sensitive DICOM tags (`PatientName`, `PatientID`) and replaces them with anonymous hashes *before* the data leaves the local network.
-
----
-
-## 🛠 Technical Stack
-* **Language:** Python 3.x
-* **Medical Imaging:** `pydicom` (DICOM standard parsing)
-* **Data Science:** `scikit-learn` (K-Means Clustering), `numpy`
-* **Visualization:** `matplotlib`
-* **Edge Logic:** Custom retry loops with `time` & `random` simulation.
+## Future Roadmap (Production)
+- **Containerization:** Dockerize the pipeline for OS-agnostic deployment on truck hardware.
+- **Storage:** Replace local mock storage with AWS S3 encrypted buckets.
+- **Integration:** Connect output directly to MedSendX Web Dashboard via REST API.
 
 ---
-
-## 🚀 How to Run
-
-### Prerequisites
-```bash
-pip install pydicom matplotlib scikit-learn numpy
+* Author: Atul Aryan
+* Status: MVP 
