@@ -43,4 +43,14 @@ It addresses four critical challenges:
 
 ---
 * Author: Atul Aryan
-* Status: MVP 
+* Status: MVP
+
+## Known Limitations & Honest Assessment
+
+This is an **MVP prototype**, not a production system. The following limitations are acknowledged:
+
+- **Mock Upload:** `mock_upload()` simulates network behaviour using `time.sleep()`. No real HTTP/S3 call is made. Production would use `boto3` for AWS S3.
+- **K-Means Segmentation:** Using K-Means on raw pixel intensity is a simplified baseline. Production medical image segmentation uses trained deep learning models (e.g. U-Net).
+- **No Real GDPR Compliance:** Overwriting two DICOM tags does not constitute full GDPR compliance. A production system would use a certified de-identification library (e.g. `dicomanonymizer`).
+- **No Authentication / Encryption in Transit:** The pipeline does not implement TLS or any auth layer. Production would require mTLS or AWS IAM.
+- **Hard-coded Paths as Defaults:** Default paths are set for local development. Use CLI arguments (see `DEMO.md`) to configure for your environment. 
