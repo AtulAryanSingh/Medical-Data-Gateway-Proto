@@ -65,6 +65,18 @@ class TestTagRemoval:
         anonymize_dataset(ds)
         assert hasattr(ds, "DeidentificationMethod")
         assert len(ds.DeidentificationMethod) > 0
+        # VR=LO has a maximum of 64 characters — must fit to be DICOM-compliant
+        assert len(ds.DeidentificationMethod) <= 64, (
+            "DeidentificationMethod exceeds VR LO max length of 64 chars"
+        )
+
+    def test_default_station_name_fits_vr_sh(self):
+        """StationName VR=SH has a maximum of 16 characters."""
+        ds = _make_dataset()
+        anonymize_dataset(ds)  # use default station_name
+        assert len(ds.StationName) <= 16, (
+            "Default StationName exceeds VR SH max length of 16 chars"
+        )
 
     def test_station_name_stamped(self):
         ds = _make_dataset()

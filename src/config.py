@@ -21,7 +21,7 @@ _DEFAULTS: dict[str, Any] = {
         "reports_folder": "reports",
     },
     "anonymization": {
-        "station_name": "REMOTE_MOBILE_CLINIC_01",
+        "station_name": "REMOTE_MOBILE_01",
     },
     "pipeline": {
         "max_files": None,

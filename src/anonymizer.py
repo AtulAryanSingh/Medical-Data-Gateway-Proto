@@ -77,7 +77,7 @@ TAGS_TO_REPLACE: dict[str, str] = {
 
 def anonymize_dataset(
     ds: Dataset,
-    station_name: str = "REMOTE_MOBILE_CLINIC_01",
+    station_name: str = "REMOTE_MOBILE_01",
 ) -> Dataset:
     """
     Remove or replace PHI tags in a pydicom Dataset **in place**.
@@ -123,10 +123,9 @@ def anonymize_dataset(
     # that this dataset has been de-identified.
     ds.PatientIdentityRemoved = "YES"
 
-    # DeidentificationMethod (0012,0063): free-text description of the method.
+    # DeidentificationMethod (0012,0063): free-text description (VR=LO, max 64 chars).
     ds.DeidentificationMethod = (
-        "Basic tag removal per DICOM PS3.15 Annex E (subset). "
-        "No UID remapping. No pixel-data scrubbing."
+        "DICOM PS3.15 Annex E subset. No UID remap, no pixel scrub."
     )
 
     # Step 5 — Stamp with the edge device identifier
@@ -138,7 +137,7 @@ def anonymize_dataset(
 def anonymize_file(
     input_path: str,
     output_path: str,
-    station_name: str = "REMOTE_MOBILE_CLINIC_01",
+    station_name: str = "REMOTE_MOBILE_01",
 ) -> None:
     """
     Load a DICOM file, de-identify it, and save to a new path.

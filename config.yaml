@@ -4,7 +4,7 @@ paths:
   reports_folder: "reports"
 
 anonymization:
-  station_name: "REMOTE_MOBILE_CLINIC_01"
+  station_name: "REMOTE_MOBILE_01"  # VR=SH max 16 chars
 
 pipeline:
   max_files: null  # null = process all files
