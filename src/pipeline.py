@@ -201,9 +201,11 @@ def process_folder(
             )
 
             result.success = uploaded
-            if not uploaded:
+            if uploaded:
+                report.processed += 1
+            else:
                 result.error = "Upload failed after all retries"
-            report.processed += 1
+                report.failed += 1
 
         except Exception as exc:
             result.error = str(exc)

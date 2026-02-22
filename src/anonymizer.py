@@ -46,7 +46,7 @@ TAGS_TO_REMOVE: list[str] = [
     "OtherPatientIDsSequence",
     "ReferringPhysicianName",
     "ReferringPhysicianAddress",
-    "ReferringPhysicianPhoneNumbers",
+    "ReferringPhysicianTelephoneNumbers",
     "InstitutionName",
     "InstitutionAddress",
     "InstitutionalDepartmentName",

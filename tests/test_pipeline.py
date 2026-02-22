@@ -112,3 +112,25 @@ class TestProcessFolder:
         cleaned = pydicom.dcmread(str(output_files[0]))
         assert not hasattr(cleaned, "PatientName") or str(cleaned.PatientName) != "Doe^Jane"
         assert cleaned.PatientIdentityRemoved == "YES"
+
+
+class TestPipelineCounters:
+    def test_upload_failure_increments_failed_not_processed(self, tmp_path):
+        """A file saved but not uploaded must count as failed, not processed."""
+        from unittest.mock import patch
+
+        input_dir = tmp_path / "input"
+        output_dir = tmp_path / "output"
+        input_dir.mkdir()
+        _write_dicom(str(input_dir / "scan.dcm"))
+
+        # Force all upload attempts to fail
+        with patch("src.pipeline.mock_upload", return_value=False):
+            report = process_folder(
+                input_folder=str(input_dir),
+                output_folder=str(output_dir),
+            )
+
+        assert report.total_files == 1
+        assert report.processed == 0, "Upload-failed file must not count as successfully processed"
+        assert report.failed == 1, "Upload-failed file must count in the failed counter"

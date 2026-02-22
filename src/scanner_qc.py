@@ -145,7 +145,7 @@ def run_qc(
     kmeans = KMeans(n_clusters=n_clusters, random_state=random_state, n_init=10)
     labels = kmeans.fit_predict(X_scaled)
 
-    score = silhouette_score(X_scaled, labels) if n_clusters > 1 else float("nan")
+    score = silhouette_score(X_scaled, labels) if (n_clusters > 1 and len(records) > n_clusters) else float("nan")
     logger.info(
         "QC clustering: %d files, k=%d, silhouette=%.3f",
         len(records), n_clusters, score,

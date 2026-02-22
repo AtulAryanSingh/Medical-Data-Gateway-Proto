@@ -97,6 +97,10 @@ def apply_window(
     """
     lower = center - width / 2.0
     upper = center + width / 2.0
+    if width <= 0:
+        raise ValueError(
+            f"Window width must be > 0, got width={width}."
+        )
     windowed = np.clip(hu_array, lower, upper)
     # Normalise to [0, 1]
     return (windowed - lower) / (upper - lower)

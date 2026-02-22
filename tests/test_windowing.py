@@ -65,6 +65,18 @@ class TestWindowing:
         windowed = apply_window(hu, center=40, width=80)
         assert abs(windowed[0] - 0.5) < 1e-9
 
+    def test_zero_width_raises(self):
+        """Width of zero causes a division-by-zero; must raise ValueError."""
+        hu = np.array([40.0])
+        with pytest.raises(ValueError, match="Window width must be > 0"):
+            apply_window(hu, center=40, width=0)
+
+    def test_negative_width_raises(self):
+        """Negative width is nonsensical; must raise ValueError."""
+        hu = np.array([40.0])
+        with pytest.raises(ValueError, match="Window width must be > 0"):
+            apply_window(hu, center=40, width=-10)
+
 
 class TestWindowFromDataset:
     def test_preset_applied(self):
