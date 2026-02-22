@@ -1,0 +1,17 @@
+paths:
+  input_folder: "data/raw"
+  output_folder: "data/processed"
+  reports_folder: "reports"
+
+anonymization:
+  station_name: "REMOTE_MOBILE_01"  # VR=SH max 16 chars
+
+pipeline:
+  max_files: null  # null = process all files
+  retry:
+    max_attempts: 5
+    base_delay: 1.0
+    max_delay: 30.0
+
+clustering:
+  n_clusters: 3

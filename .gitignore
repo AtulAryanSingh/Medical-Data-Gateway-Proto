@@ -1,0 +1,13 @@
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Generated DICOM files — run scripts/generate_sample_data.py to create them
+data/raw/*.dcm
+data/processed/*.dcm
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
