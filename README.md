@@ -52,6 +52,28 @@ no message queues, no microservices.
 
 ---
 
+## Getting Started
+
+### Clone the repository (first time)
+```bash
+git clone https://github.com/AtulAryanSingh/Medical-Data-Gateway-Proto.git
+cd Medical-Data-Gateway-Proto
+```
+
+### Pull the latest changes (existing clone)
+If you already have a local copy and want to download the newest updates:
+```bash
+cd Medical-Data-Gateway-Proto
+git pull origin main
+```
+
+### Alternative: download as ZIP
+If you don't use Git, click the green **Code** button on the
+[repository page](https://github.com/AtulAryanSingh/Medical-Data-Gateway-Proto)
+and choose **Download ZIP**. Extract it and replace your old folder.
+
+---
+
 ## How to Run
 
 ### Install dependencies
