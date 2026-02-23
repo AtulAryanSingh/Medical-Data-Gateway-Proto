@@ -1,0 +1,15 @@
+__pycache__
+*.pyc
+.git
+.github
+*.png
+*.jpeg
+*.jpg
+reports/
+data/processed/
+notebooks/
+legacy/
+.gitignore
+README.md
+LICENSE
+Makefile
