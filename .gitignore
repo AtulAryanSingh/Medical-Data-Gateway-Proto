@@ -5,8 +5,16 @@ __pycache__/
 .pytest_cache/
 
 # Generated DICOM files — run scripts/generate_sample_data.py to create them
-data/raw/*.dcm
-data/processed/*.dcm
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Raw sample data (already on main branch)
+dicom(100)/
+
+# Generated report images — run scripts/run_full_pipeline.py to create them
+reports/*.png
 
 # Jupyter notebook checkpoints
 .ipynb_checkpoints/
