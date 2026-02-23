@@ -60,12 +60,27 @@ git clone https://github.com/AtulAryanSingh/Medical-Data-Gateway-Proto.git
 cd Medical-Data-Gateway-Proto
 ```
 
-### Pull the latest changes (existing clone)
-If you already have a local copy and want to download the newest updates:
+### Pull the latest changes from your Desktop folder
+
+If you already cloned the repo and it is sitting on your Desktop, open a
+terminal and navigate into it before pulling:
+
+**Windows (Command Prompt or PowerShell):**
 ```bash
-cd Medical-Data-Gateway-Proto
+cd %USERPROFILE%\Desktop\Medical-Data-Gateway-Proto
 git pull origin main
 ```
+
+**macOS / Linux:**
+```bash
+cd ~/Desktop/Medical-Data-Gateway-Proto
+git pull origin main
+```
+
+> **Tip:** If your folder is somewhere else (e.g. `Documents`), replace
+> `Desktop` with that folder name.  You can also right-click the folder
+> in your file explorer and choose **"Open in Terminal"** (or
+> **"Git Bash Here"** on Windows) to skip the `cd` step.
 
 ### Alternative: download as ZIP
 If you don't use Git, click the green **Code** button on the
