@@ -1,0 +1,46 @@
+name: DICOM Pipeline — Results & Visualisations
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -m pytest tests/ -v
+
+      - name: Prepare DICOM input data
+        run: |
+          # Copy real skull-CT DICOM files into the pipeline input folder
+          cp "dicom(100)/"* data/raw/
+
+      - name: Run full pipeline
+        run: python scripts/run_full_pipeline.py
+
+      - name: Generate pipeline summary
+        if: always()
+        run: python scripts/generate_pipeline_summary.py
+
+      - name: Upload visualisation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-reports
+          path: reports/*.png
+          if-no-files-found: warn
