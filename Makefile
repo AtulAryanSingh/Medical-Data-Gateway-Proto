@@ -10,7 +10,7 @@
 PYTHON ?= python
 PYTEST ?= python -m pytest
 
-.PHONY: setup data test pipeline notebook demo clean
+.PHONY: setup data test pipeline run notebook demo clean
 
 # ── Install dependencies ───────────────────────────────────────────────────
 setup:
@@ -31,6 +31,10 @@ import logging; logging.basicConfig(level=logging.INFO, format='%(levelname)s %(
 from src.pipeline import process_folder; \
 r = process_folder(); \
 print(r.summary())"
+
+# ── Full end-to-end run: data → pipeline → clustering → QC → reports ─────
+run:
+	$(PYTHON) scripts/run_full_pipeline.py
 
 # ── Open the demo notebook ────────────────────────────────────────────────
 notebook:

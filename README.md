@@ -81,12 +81,28 @@ and choose **Download ZIP**. Extract it and replace your old folder.
 pip install -r requirements.txt
 ```
 
+### Run the full pipeline end-to-end
+This generates sample data (if needed), runs anonymisation, simulated upload,
+intensity clustering, fleet QC, and saves visualisations to `reports/`:
+```bash
+python scripts/run_full_pipeline.py
+# or
+make run
+```
+
+### Using your own DICOM data (e.g. 2_skull_ct)
+Copy your DICOM files into `data/raw/` and then run the pipeline:
+```bash
+cp 2_skull_ct/DICOM/*.dcm data/raw/
+python scripts/run_full_pipeline.py
+```
+
 ### Run the demo notebook
 ```bash
 jupyter notebook notebooks/demo_walkthrough.ipynb
 ```
 
-### Run the batch pipeline
+### Run the batch pipeline only
 ```python
 from src.pipeline import process_folder
 report = process_folder(input_folder="data/raw", output_folder="data/processed")
