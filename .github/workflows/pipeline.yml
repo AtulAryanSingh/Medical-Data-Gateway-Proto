@@ -28,7 +28,7 @@ jobs:
       - name: Prepare DICOM input data
         run: |
           # Copy real skull-CT DICOM files into the pipeline input folder
-          cp "dicom(100)/"* data/raw/
+          cp "dicom(100)"/* data/raw/
 
       - name: Run full pipeline
         run: python scripts/run_full_pipeline.py

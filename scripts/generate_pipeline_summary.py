@@ -61,22 +61,27 @@ def _build_summary() -> str:
 
     # ── Clustering metrics ─────────────────────────────────────────────────
     lines.append("## 🔬 Intensity Clustering (K-Means, k=3)\n")
-    first_file = os.path.join(INPUT_FOLDER, input_files[0])
-    ds = pydicom.dcmread(first_file)
-    _, _, silhouette = cluster_scan(ds, n_clusters=3)
-
-    lines.append(f"| Metric | Value | Interpretation |")
-    lines.append(f"|--------|-------|----------------|")
-    if silhouette > 0.7:
-        interp = "✅ Excellent — clusters are well-separated"
-    elif silhouette > 0.5:
-        interp = "✅ Good — reasonable cluster separation"
-    elif silhouette > 0.25:
-        interp = "⚠️ Fair — clusters overlap moderately"
+    if not input_files:
+        lines.append("_No input files found — skipping clustering._\n")
+        silhouette = float("nan")
     else:
-        interp = "❌ Poor — clusters are not well-defined"
-    lines.append(f"| Silhouette score | {silhouette:.3f} | {interp} |")
-    lines.append("")
+        first_file = os.path.join(INPUT_FOLDER, input_files[0])
+        ds = pydicom.dcmread(first_file)
+        _, _, silhouette = cluster_scan(ds, n_clusters=3)
+
+    if input_files:
+        lines.append(f"| Metric | Value | Interpretation |")
+        lines.append(f"|--------|-------|----------------|")
+        if silhouette > 0.7:
+            interp = "✅ Excellent — clusters are well-separated"
+        elif silhouette > 0.5:
+            interp = "✅ Good — reasonable cluster separation"
+        elif silhouette > 0.25:
+            interp = "⚠️ Fair — clusters overlap moderately"
+        else:
+            interp = "❌ Poor — clusters are not well-defined"
+        lines.append(f"| Silhouette score | {silhouette:.3f} | {interp} |")
+        lines.append("")
 
     # ── Fleet QC metrics ───────────────────────────────────────────────────
     lines.append("## 🛡️ Fleet-Level Scanner QC (K-Means, k=2)\n")
