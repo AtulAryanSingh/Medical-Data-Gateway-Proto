@@ -55,13 +55,13 @@ REPORTS_FOLDER = os.path.join(_REPO_ROOT, CONFIG["paths"]["reports_folder"])
 
 
 def _ensure_sample_data() -> None:
-    """Generate synthetic data if data/raw/ has no .dcm files."""
-    dcm_files = [f for f in os.listdir(INPUT_FOLDER) if f.endswith(".dcm")]
-    if dcm_files:
-        logger.info("Found %d DICOM file(s) in %s — skipping generation.", len(dcm_files), INPUT_FOLDER)
+    """Generate synthetic data if data/raw/ has no files (DICOM or otherwise)."""
+    data_files = [f for f in os.listdir(INPUT_FOLDER) if not f.startswith(".")]
+    if data_files:
+        logger.info("Found %d file(s) in %s — skipping generation.", len(data_files), INPUT_FOLDER)
         return
 
-    logger.info("No DICOM files in %s — generating samples…", INPUT_FOLDER)
+    logger.info("No files in %s — generating samples…", INPUT_FOLDER)
     from scripts.generate_sample_data import generate  # noqa: E402 — lazy import
     generate(INPUT_FOLDER)
 
@@ -74,9 +74,9 @@ def main() -> None:
     print("STEP 1 — Prepare input data")
     print("=" * 60)
     _ensure_sample_data()
-    dcm_files = sorted(f for f in os.listdir(INPUT_FOLDER) if f.endswith(".dcm"))
+    input_files = sorted(f for f in os.listdir(INPUT_FOLDER) if not f.startswith("."))
     print(f"  Input folder : {INPUT_FOLDER}")
-    print(f"  Files found  : {len(dcm_files)}")
+    print(f"  Files found  : {len(input_files)}")
     print()
 
     # ── Step 2: Run the batch pipeline (anonymise + mock upload) ───────────
@@ -94,10 +94,10 @@ def main() -> None:
     print("=" * 60)
     print("STEP 3 — Intensity clustering (K-Means)")
     print("=" * 60)
-    first_dcm = os.path.join(INPUT_FOLDER, dcm_files[0])
-    ds = pydicom.dcmread(first_dcm)
+    first_file = os.path.join(INPUT_FOLDER, input_files[0])
+    ds = pydicom.dcmread(first_file)
     windowed, cluster_map, silhouette = cluster_scan(ds, n_clusters=3)
-    print(f"  File         : {dcm_files[0]}")
+    print(f"  File         : {input_files[0]}")
     print(f"  Clusters     : 3")
     print(f"  Silhouette   : {silhouette:.3f}")
     print()
@@ -119,7 +119,7 @@ def main() -> None:
     print("STEP 5 — Saving visualisations to reports/")
     print("=" * 60)
 
-    fig = plot_raw_scan(ds, title=f"Raw scan — {dcm_files[0]}")
+    fig = plot_raw_scan(ds, title=f"Raw scan — {input_files[0]}")
     path = os.path.join(REPORTS_FOLDER, "raw_scan.png")
     fig.savefig(path, dpi=100, bbox_inches="tight")
     print(f"  Saved: {path}")

@@ -105,11 +105,21 @@ python scripts/run_full_pipeline.py
 make run
 ```
 
-### Using your own DICOM data (e.g. 2_skull_ct)
-Copy your DICOM files into `data/raw/` and then run the pipeline:
+### Using the skull CT sample data (`dicom(100)`)
+The repository includes 45 real (publicly available) skull CT slices in
+`dicom(100)/`.  Copy them into the pipeline input folder and run:
 ```bash
-cp 2_skull_ct/DICOM/*.dcm data/raw/
+cp "dicom(100)"/* data/raw/
 python scripts/run_full_pipeline.py
+```
+
+### Audit DICOM files for patient information
+Before storing DICOM data in a public repository, check for PHI:
+```bash
+python scripts/audit_phi.py            # scans data/raw/
+python scripts/audit_phi.py some/path  # scans a custom folder
+# or
+make audit
 ```
 
 ### Run the demo notebook
@@ -151,6 +161,28 @@ pipeline:
 clustering:
   n_clusters: 3
 ```
+
+---
+
+## Sample Data — PHI Audit Results
+
+The `dicom(100)/` skull CT dataset was audited with `scripts/audit_phi.py`.
+Results:
+
+| Tag | Value | Status |
+|---|---|---|
+| PatientName | `NAME^NONE` | ✓ dummy placeholder |
+| PatientID | `NOID` | ✓ dummy placeholder |
+| DeviceSerialNumber | `SN000000` | ✓ dummy placeholder |
+| PatientBirthDate, Sex, Age, Address | absent | ✓ safe |
+| InstitutionName, PhysicianNames | absent | ✓ safe |
+| StudyDate / times | present (2010-08-06) | ⚠ dates remain |
+| Private/vendor tags | 9 per file | ⚠ present |
+
+**Verdict:** The raw data contains **no real patient identity** and is safe
+to store as-is in a public repository.  However, running the pipeline
+(`python scripts/run_full_pipeline.py`) will also strip dates and private
+tags for best practice.  The anonymized output is written to `data/processed/`.
 
 ---
 

@@ -24,6 +24,10 @@ data:
 test:
 	$(PYTEST) tests/ -v
 
+# ── Audit DICOM files for Protected Health Information ────────────────────
+audit:
+	$(PYTHON) scripts/audit_phi.py
+
 # ── Run the batch pipeline against sample data ────────────────────────────
 pipeline:
 	$(PYTHON) -c "\
