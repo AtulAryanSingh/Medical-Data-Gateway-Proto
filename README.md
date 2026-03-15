@@ -4,6 +4,11 @@ A learning prototype for processing DICOM medical imaging files from mobile
 clinical units.  Built to demonstrate core concepts in medical data engineering:
 de-identification, image processing, and quality-control analytics.
 
+> 📖 **New to this project?**  Start with the
+> **[Step-by-Step Beginner Guide](docs/BEGINNER_GUIDE.md)** — it walks you
+> through every concept (What / Why / How), one brick at a time, from zero
+> knowledge to the full pipeline.
+
 ---
 
 ## Scope & Limitations
