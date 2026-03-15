@@ -4,6 +4,17 @@ A learning prototype for processing DICOM medical imaging files from mobile
 clinical units.  Built to demonstrate core concepts in medical data engineering:
 de-identification, image processing, and quality-control analytics.
 
+> 📖 **Completely new to this project — or to Python itself?**
+>
+> Follow the guides below in order.  Each one builds on the previous.
+>
+> | Step | Document | What it covers |
+> |------|----------|----------------|
+> | 1 | **[Python Primer](docs/01_PYTHON_PRIMER.md)** | Every Python concept used in this project — from variables to classes to NumPy, with runnable examples |
+> | 2 | **[VS Code Demo Guide](docs/02_VSCODE_DEMO_GUIDE.md)** | Set up VS Code, run & debug the code, deliver a confident 15-minute live demo |
+> | 3 | **[Code Walkthrough](docs/03_CODE_WALKTHROUGH.md)** | Every source file, every line, explained — what it does, why it's there, how it works |
+> | 4 | **[Beginner Guide](docs/BEGINNER_GUIDE.md)** | High-level brick-by-brick overview of the full pipeline (What / Why / How per concept) |
+
 ---
 
 ## Scope & Limitations
